@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 function App() {
   useEffect(() => {
@@ -19,7 +20,14 @@ function App() {
     directionalLight.position.set(5, 5, 5); // Position it to give proper lighting
     scene.add(directionalLight);
 
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    dracoLoader.setDecoderConfig({type : 'js'});
+
     const loader = new GLTFLoader();
+    loader.setDRACOLoader(dracoLoader);
+
     loader.load(
       '/livingroom.glb',
       (gltf) => {
